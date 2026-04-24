@@ -1,0 +1,323 @@
+{
+  "version": "1.0",
+  "last_updated": "2026-04-24",
+  "description": "Skill 元数据注册表 - 模拟 Hermes 工具自省，实现能力快速扫描",
+  "total_skills": 32,
+  "categories": {
+    "self-evolution": {
+      "label": "🧬 自进化核心",
+      "skills": [
+        {
+          "name": "self-improvement",
+          "version": "2.2.0",
+          "path": "~/.workbuddy/skills/self-improvement/SKILL.md",
+          "trigger_keywords": ["自我优化", "反思", "复盘", "总结经验"],
+          "capabilities": ["执行反思", "意图预判", "Skill候选识别", "Skill自动创建", "跨会话模式检测"],
+          "depends_on": [],
+          "auto_triggers_after": ["任何复杂任务完成"]
+        },
+        {
+          "name": "memory-consolidation",
+          "version": "2.2.0",
+          "path": "~/.workbuddy/skills/memory-consolidation/SKILL.md",
+          "trigger_keywords": ["整理记忆", "压缩记忆", "清理日志"],
+          "capabilities": ["记忆整理", "日志归档", "记忆索引维护", "按需检索"],
+          "depends_on": [],
+          "auto_triggers_after": []
+        },
+        {
+          "name": "skill-evolution",
+          "version": "1.2.0",
+          "path": "~/.workbuddy/skills/skill-evolution/SKILL.md",
+          "trigger_keywords": ["skill进化", "优化skill", "审计skill"],
+          "capabilities": ["触发词优化", "踩坑经验管理", "经验自动消化", "Skill健康评分"],
+          "depends_on": [],
+          "auto_triggers_after": ["self-improvement 发现触发词盲区"]
+        },
+        {
+          "name": "workflow-loop",
+          "version": "1.1.0",
+          "path": "~/.workbuddy/skills/workflow-loop/SKILL.md",
+          "trigger_keywords": ["工作流", "工作流闭环", "流程模板"],
+          "capabilities": ["标准闭环模板", "并行调用优化", "强制联动编排"],
+          "depends_on": [],
+          "auto_triggers_after": []
+        },
+        {
+          "name": "strategic-compact",
+          "version": "1.1.0",
+          "path": "~/.workbuddy/skills/strategic-compact/SKILL.md",
+          "trigger_keywords": ["上下文压缩", "strategic compact"],
+          "capabilities": ["智能压缩", "Token预算管理", "成本感知"],
+          "depends_on": [],
+          "auto_triggers_after": []
+        }
+      ]
+    },
+    "development": {
+      "label": "💻 开发工具链",
+      "skills": [
+        {
+          "name": "code-review",
+          "path": "~/.workbuddy/skills/code-review/SKILL.md",
+          "trigger_keywords": ["代码审查", "code review", "检查代码"],
+          "capabilities": ["代码质量审查", "安全审计", "改进建议"],
+          "depends_on": [],
+          "auto_triggers_after": ["代码修改完成(联动)"]
+        },
+        {
+          "name": "git-workflow",
+          "path": "~/.workbuddy/skills/git-workflow/SKILL.md",
+          "trigger_keywords": ["git", "commit", "push", "PR"],
+          "capabilities": ["规范化提交", "分支策略", "PR描述"],
+          "depends_on": [],
+          "auto_triggers_after": []
+        },
+        {
+          "name": "documentation",
+          "path": "~/.workbuddy/skills/documentation/SKILL.md",
+          "trigger_keywords": ["写文档", "README", "API文档"],
+          "capabilities": ["技术文档生成", "接口文档", "使用说明"],
+          "depends_on": [],
+          "auto_triggers_after": []
+        },
+        {
+          "name": "web-research",
+          "path": "~/.workbuddy/skills/web-research/SKILL.md",
+          "trigger_keywords": ["调研", "研究", "搜索资料", "竞品分析"],
+          "capabilities": ["深度网络研究", "信息整理", "结构化报告"],
+          "depends_on": [],
+          "auto_triggers_after": []
+        },
+        {
+          "name": "security-hook",
+          "path": "~/.workbuddy/skills/security-hook/SKILL.md",
+          "trigger_keywords": ["安全检查", "安全扫描", "密钥泄露"],
+          "capabilities": ["确定性安全拦截", "敏感信息检测"],
+          "depends_on": [],
+          "auto_triggers_after": ["git push前(联动)"]
+        }
+      ]
+    },
+    "finance": {
+      "label": "💰 金融数据",
+      "skills": [
+        {
+          "name": "tushare-data",
+          "version": "1.1.11",
+          "path": "~/.workbuddy/skills/tushare-data/SKILL.md",
+          "trigger_keywords": ["Tushare", "金融数据", "股票数据", "行情"],
+          "capabilities": ["209个金融数据接口", "A股/港股/美股", "财报/宏观/基金"],
+          "depends_on": ["TUSHARE_TOKEN 环境变量"],
+          "auto_triggers_after": []
+        },
+        {
+          "name": "stock-analyst",
+          "path": "~/.workbuddy/skills/stock-analyst/SKILL.md",
+          "trigger_keywords": ["股票分析", "看股票", "K线", "技术分析"],
+          "capabilities": ["五维分析", "信号共振", "缠论", "回测"],
+          "depends_on": ["AkShare"],
+          "auto_triggers_after": []
+        }
+      ]
+    },
+    "platform-specific": {
+      "label": "📱 平台开发",
+      "skills": [
+        {
+          "name": "harmonyos-app-dev",
+          "path": "~/.workbuddy/skills/harmonyos-app-dev/SKILL.md",
+          "trigger_keywords": ["鸿蒙", "HarmonyOS", "ArkTS", "ArkUI"],
+          "capabilities": ["鸿蒙应用开发", "Stage模型", "状态管理", "性能优化"],
+          "depends_on": [],
+          "auto_triggers_after": []
+        },
+        {
+          "name": "Android 原生开发",
+          "path": "~/.workbuddy/skills/Android 原生开发/SKILL.md",
+          "trigger_keywords": ["Android开发", "Kotlin", "Compose", "Material Design"],
+          "capabilities": ["Android应用开发", "UI设计", "构建配置"],
+          "depends_on": [],
+          "auto_triggers_after": []
+        },
+        {
+          "name": "iOS 应用开发",
+          "path": "~/.workbuddy/skills/iOS 应用开发/SKILL.md",
+          "trigger_keywords": ["iOS", "SwiftUI", "UIKit", "SnapKit"],
+          "capabilities": ["iOS应用开发", "SwiftUI设计", "无障碍"],
+          "depends_on": [],
+          "auto_triggers_after": []
+        },
+        {
+          "name": "微信小程序开发框架",
+          "path": "~/.workbuddy/skills/微信小程序开发框架/SKILL.md",
+          "trigger_keywords": ["微信小程序", "WXML", "WXSS", "云开发"],
+          "capabilities": ["小程序开发", "组件开发", "生命周期"],
+          "depends_on": [],
+          "auto_triggers_after": []
+        },
+        {
+          "name": "TDesign 微信小程序组件",
+          "path": "~/.workbuddy/skills/TDesign 微信小程序组件/SKILL.md",
+          "trigger_keywords": ["TDesign", "小程序组件", "UI组件库"],
+          "capabilities": ["TDesign组件", "主题定制", "暗黑模式"],
+          "depends_on": [],
+          "auto_triggers_after": []
+        }
+      ]
+    },
+    "design": {
+      "label": "🎨 设计与创作",
+      "skills": [
+        {
+          "name": "Impeccable（前端设计工具集）",
+          "path": "~/.workbuddy/skills/Impeccable（前端设计工具集）/SKILL.md",
+          "trigger_keywords": ["UI设计", "前端设计", "界面设计", "响应式"],
+          "capabilities": ["高质量前端界面", "品牌设计", "动画效果"],
+          "depends_on": [],
+          "auto_triggers_after": []
+        },
+        {
+          "name": "品牌设计风格专家",
+          "path": "~/.workbuddy/skills/品牌设计风格专家/SKILL.md",
+          "trigger_keywords": ["品牌设计", "设计风格", "参考XX设计"],
+          "capabilities": ["品牌设计系统", "设计Token", "配色方案"],
+          "depends_on": [],
+          "auto_triggers_after": []
+        },
+        {
+          "name": "去AI味",
+          "path": "~/.workbuddy/skills/去AI味/SKILL.md",
+          "trigger_keywords": ["去AI味", "人性化", "自然语言"],
+          "capabilities": ["AI痕迹检测", "文本人性化", "文风优化"],
+          "depends_on": [],
+          "auto_triggers_after": []
+        },
+        {
+          "name": "学术引用管理",
+          "path": "~/.workbuddy/skills/学术引用管理/SKILL.md",
+          "trigger_keywords": ["学术引用", "参考文献", "APA", "论文"],
+          "capabilities": ["引用管理", "CrossRef检索", "格式标准化"],
+          "depends_on": [],
+          "auto_triggers_after": []
+        }
+      ]
+    },
+    "integration": {
+      "label": "🔗 外部集成",
+      "skills": [
+        {
+          "name": "mcp-connector",
+          "path": "~/.workbuddy/skills/mcp-connector/SKILL.md",
+          "trigger_keywords": ["连接GitHub", "数据库", "Docker", "MCP"],
+          "capabilities": ["GitHub集成", "数据库操作", "Docker管理"],
+          "depends_on": [],
+          "auto_triggers_after": []
+        },
+        {
+          "name": "飞书套件",
+          "path": "~/.workbuddy/skills/飞书套件/SKILL.md",
+          "trigger_keywords": ["飞书", "Lark", "飞书文档"],
+          "capabilities": ["飞书消息", "文档管理", "日程", "任务"],
+          "depends_on": [],
+          "auto_triggers_after": []
+        },
+        {
+          "name": "腾讯ima",
+          "path": "~/.workbuddy/skills/腾讯ima/SKILL.md",
+          "trigger_keywords": ["知识库", "笔记", "资料库"],
+          "capabilities": ["笔记管理", "知识库搜索", "文件上传"],
+          "depends_on": [],
+          "auto_triggers_after": []
+        },
+        {
+          "name": "腾讯会议",
+          "path": "~/.workbuddy/skills/腾讯会议/SKILL.md",
+          "trigger_keywords": ["腾讯会议", "视频会议"],
+          "capabilities": ["会议管理", "日程安排"],
+          "depends_on": [],
+          "auto_triggers_after": []
+        },
+        {
+          "name": "obsidian",
+          "path": "~/.workbuddy/skills/obsidian/SKILL.md",
+          "trigger_keywords": ["Obsidian", "知识图谱", "Markdown笔记"],
+          "capabilities": ["Vault管理", "笔记自动化"],
+          "depends_on": [],
+          "auto_triggers_after": []
+        }
+      ]
+    },
+    "domain": {
+      "label": "🏗️ 领域专精",
+      "skills": [
+        {
+          "name": "non-motor-insurance-product",
+          "path": "~/.workbuddy/skills/non-motor-insurance-product/SKILL.md",
+          "trigger_keywords": ["保险产品开发", "非车险", "保险条款", "费率"],
+          "capabilities": ["保险产品开发", "条款撰写", "精算定价"],
+          "depends_on": [],
+          "auto_triggers_after": []
+        },
+        {
+          "name": "Deep Research",
+          "path": "~/.workbuddy/skills/Deep Research/SKILL.md",
+          "trigger_keywords": ["deep research", "benchmark", "技术调研"],
+          "capabilities": ["结构化研究", "并行搜索", "研究报告"],
+          "depends_on": [],
+          "auto_triggers_after": []
+        },
+        {
+          "name": "fusion-workflow-hub",
+          "path": "~/.workbuddy/skills/fusion-workflow-hub/SKILL.md",
+          "trigger_keywords": ["知识图谱", "graphify", "代码图谱"],
+          "capabilities": ["代码分析", "知识图谱", "TDD流程"],
+          "depends_on": [],
+          "auto_triggers_after": []
+        }
+      ]
+    },
+    "map": {
+      "label": "🗺️ 地图服务",
+      "skills": [
+        {
+          "name": "tencentmap-jsapi-gl-skill",
+          "path": "~/.workbuddy/skills/tencentmap-jsapi-gl-skill/SKILL.md",
+          "trigger_keywords": ["腾讯地图", "jsapi", "jsapi-gl"],
+          "capabilities": ["地图初始化", "覆盖物", "可视化"],
+          "depends_on": ["TMAP_JSAPI_KEY"],
+          "auto_triggers_after": []
+        },
+        {
+          "name": "tencentmap-lbs-skill",
+          "path": "~/.workbuddy/skills/tencentmap-lbs-skill/SKILL.md",
+          "trigger_keywords": ["腾讯地图位置服务", "POI搜索", "路线规划"],
+          "capabilities": ["POI搜索", "路径规划", "轨迹可视化"],
+          "depends_on": ["TMAP_WEBSERVICE_KEY"],
+          "auto_triggers_after": []
+        },
+        {
+          "name": "tencentmap-miniprogram-skill",
+          "path": "~/.workbuddy/skills/tencentmap-miniprogram-skill/SKILL.md",
+          "trigger_keywords": ["小程序地图", "微信地图"],
+          "capabilities": ["小程序地图组件", "标记点", "路线"],
+          "depends_on": ["TMAP_MINIPROGRAM_KEY"],
+          "auto_triggers_after": []
+        },
+        {
+          "name": "tencentmap-webservice-skill",
+          "path": "~/.workbuddy/skills/tencentmap-webservice-skill/SKILL.md",
+          "trigger_keywords": ["WebService API", "地理编码", "地址转坐标"],
+          "capabilities": ["地理编码", "POI查询", "距离矩阵"],
+          "depends_on": ["TMAP_WEBSERVICE_KEY"],
+          "auto_triggers_after": []
+        }
+      ]
+    }
+  },
+  "usage_stats": {
+    "last_updated": "2026-04-24",
+    "most_used": ["finance-data-retrieval", "self-improvement", "git-workflow", "code-review"],
+    "rarely_used": ["tencentmap-*", "harmonyos-app-dev", "学术引用管理"]
+  }
+}

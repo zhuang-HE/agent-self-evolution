@@ -13,18 +13,25 @@
 我们为 AI Agent 设计了**六个核心 Skill**，形成完整的自进化闭环：
 
 ```
-用户请求 → 🔮 意图预判（self-improvement v2.1）→ 预加载最优 Skill
+用户请求 → 🔮 意图预判（self-improvement v2.2）
+              ↓ 扫描 skill-registry.json
+         📋 工具自省（workflow-loop v1.2）→ 匹配最优 Skill
               ↓
-任务执行 → ⚡ 并行调用优化（workflow-loop v1.1）→ 减少等待
+         🔄 跨会话模式检测 → 识别重复模式 → 主动推荐
               ↓
-         完成 → 🔗 强制联动（workflow-loop v1.1）→ 自动触发审查/踩坑/候选
+任务执行 → ⚡ 并行调用优化（workflow-loop v1.2）→ 减少等待
+              ↓
+         完成 → 🔗 强制联动 → 自动触发审查/踩坑/候选
               ↓
          self-improvement（自我反思）
               ↓
-         ├── memory-consolidation（记忆整理）→ 经验沉淀到 MEMORY.md
-         ├── skill-evolution（技能进化）→ 优化触发词、踩坑经验
-         ├── 💰 Token 预算管理（strategic-compact v1.1）→ 成本感知
-         └── Skill 候选识别 → 自动创建 Skill
+         ├── 🆕 Skill 自动创建（v2.2）→ 提取模式→生成模板→用户审核
+         ├── memory-consolidation（记忆整理）
+         │     └── 📋 记忆索引（memory-index.json）→ 按需检索
+         ├── skill-evolution（技能进化）
+         │     └── 🆕 踩坑经验消化（v1.2）→ ≥3条→提炼为显式步骤
+         ├── 💰 Token 预算管理（strategic-compact v1.1）
+         └── 📋 Skill 注册表更新
               ↓
          下次执行时更聪明、更高效 ←←←←←←←←←
 ```

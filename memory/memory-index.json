@@ -1,0 +1,79 @@
+{
+  "version": "1.0",
+  "last_updated": "2026-04-24",
+  "memory_file_size_kb": 3,
+  "sections": [
+    {
+      "id": "general-prefs",
+      "title": "通用偏好",
+      "line_start": 8,
+      "line_end": 18,
+      "keywords": ["语言", "中文", "沟通", "输出", "格式", "置信度", "代码质量", "工作方式", "绝对路径"],
+      "always_load": true
+    },
+    {
+      "id": "project-quant",
+      "title": "项目：量化交易系统",
+      "line_start": 21,
+      "line_end": 37,
+      "keywords": ["Python", "Pandas", "Streamlit", "Tushare", "AkShare", "Plotly", "量化", "五维分析", "RSI", "布林带", "KDJ", "回测", "股票"],
+      "always_load": false,
+      "workspace_match": ["quant"]
+    },
+    {
+      "id": "project-skills",
+      "title": "项目：WorkBuddy Skills 生态",
+      "line_start": 40,
+      "line_end": 53,
+      "keywords": ["SKILL.md", "Skill", "触发词", "踩坑经验", "tushare-data", "skill-evolution", "self-improvement"],
+      "always_load": false,
+      "workspace_match": ["skills"]
+    },
+    {
+      "id": "project-harmonyos",
+      "title": "项目：OpenClaw 鸿蒙应用",
+      "line_start": 56,
+      "line_end": 61,
+      "keywords": ["ArkTS", "ArkUI", "HarmonyOS", "鸿蒙", "编译错误"],
+      "always_load": false,
+      "workspace_match": ["harmonyos", "OpenClaw"]
+    },
+    {
+      "id": "cross-lessons",
+      "title": "跨项目经验教训",
+      "line_start": 64,
+      "line_end": 69,
+      "keywords": ["Streamlit", "HTML", "金融数据", "API", "ts_code", "量化平台"],
+      "always_load": false
+    },
+    {
+      "id": "evolution-roadmap",
+      "title": "进化路线图",
+      "line_start": 72,
+      "line_end": 98,
+      "keywords": ["Hermes", "自进化", "记忆", "Skill", "进化", "平台"],
+      "always_load": false,
+      "workspace_match": ["agent-self-evolution"]
+    }
+  ],
+  "cross_session_patterns": [
+    {
+      "pattern": "金融数据查询",
+      "frequency": 8,
+      "last_seen": "2026-04-24",
+      "suggested_skill": "finance-data-retrieval"
+    },
+    {
+      "pattern": "量化系统开发",
+      "frequency": 6,
+      "last_seen": "2026-04-24",
+      "suggested_skill": "stock-analyst"
+    },
+    {
+      "pattern": "Skill 生态维护",
+      "frequency": 5,
+      "last_seen": "2026-04-24",
+      "suggested_skill": "skill-evolution"
+    }
+  ]
+}

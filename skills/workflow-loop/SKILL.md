@@ -1,6 +1,6 @@
 ---
 name: workflow-loop
-version: 1.0.0
+version: 1.2.0
 description: >
   标准工作流闭环模板库，提供四种常用开发流程的标准化定义。
   触发词：工作流、工作流闭环、流程模板、标准流程、Bug修复流程、
@@ -22,6 +22,66 @@ tools:
 - **Completion Protocol**（完成状态协议）
 - **Escalation Rules**（升级机制）
 - **上下游关系**（与其他 skill 的联动）
+- **Skill 注册表自省**（v1.2 新增，借鉴 Hermes 工具自省）
+
+---
+
+## 🔍 Skill 注册表自省（v1.2 新增）
+
+> **借鉴 Hermes 工具自省能力**：在任务开始前快速扫描"我能做什么"，
+> 而不是等用户说到触发词才想起来。
+
+### 自省数据源
+
+```
+.workbuddy/memory/skill-registry.json
+```
+
+### 自省流程
+
+```
+收到用户请求
+    ↓
+Step 1: 读取 skill-registry.json 的 categories 结构（极低成本）
+    ↓
+Step 2: 匹配用户请求关键词与各 Skill 的 trigger_keywords + capabilities
+    ↓
+Step 3: 排序匹配结果
+    - 精确匹配 trigger_keywords → 优先级高
+    - 关键词匹配 capabilities → 优先级中
+    - 类别匹配 → 优先级低
+    ↓
+Step 4: 决策
+    - 匹配到 Skill → 预加载（与 self-improvement 意图预判协同）
+    - 匹配到多个 Skill → 选择最精确的，其余标记为备选联动
+    - 无匹配 → 正常执行，后续可用 find-skills 搜索外部 Skill
+```
+
+### 自省示例
+
+```
+用户说："帮我写个保险产品的条款"
+
+skill-registry.json 自省结果：
+1. non-motor-insurance-product
+   - trigger_keywords 命中: "保险产品开发", "保险条款" ✅
+   - capabilities: "条款撰写", "精算定价"
+   → 预加载此 Skill
+
+2. documentation（备选联动）
+   - capabilities 匹配: "文档生成"
+   → 条款写完后可能需要生成文档
+```
+
+### 注册表维护
+
+| 触发时机 | 维护动作 |
+|---------|---------|
+| 安装新 Skill 后 | 在注册表中添加条目 |
+| 卸载/删除 Skill 后 | 从注册表中移除 |
+| Skill 版本升级后 | 更新 version 字段 |
+| Skill 触发词变更后 | 更新 trigger_keywords |
+| skill-evolution 审计时 | 验证注册表与实际 Skill 的一致性 |
 
 ---
 

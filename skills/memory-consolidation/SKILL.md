@@ -85,6 +85,101 @@ MEMORY.md 采用 **项目隔离分区** 设计，防止跨项目知识污染：
    - 将 [0.3] 置信度的试探性条目压缩为一行摘要
    - 保留 [0.7]+ 置信度条目的完整内容
 
+### 记忆索引系统（v2.2 新增 - 模拟 Hermes FTS5 语义检索）
+
+> **问题**：MEMORY.md 全量读取浪费 token，关键词预检不够智能。
+> **方案**：维护一个轻量级 JSON 索引文件，实现按主题快速定位。
+
+#### 索引文件位置
+
+```
+.workbuddy/memory/memory-index.json
+```
+
+#### 索引结构
+
+```json
+{
+  "version": "1.0",
+  "last_updated": "2026-04-24",
+  "memory_file_size_kb": 15,
+  "sections": [
+    {
+      "id": "general-prefs",
+      "title": "通用偏好",
+      "line_start": 8,
+      "line_end": 18,
+      "keywords": ["语言", "中文", "沟通", "输出", "格式", "置信度", "代码质量", "工作方式", "绝对路径"],
+      "confidence": [0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.7, 0.7],
+      "always_load": true
+    },
+    {
+      "id": "project-quant",
+      "title": "项目：量化交易系统",
+      "line_start": 21,
+      "line_end": 37,
+      "keywords": ["Python", "Pandas", "Streamlit", "Tushare", "AkShare", "Plotly", "量化", "五维分析", "RSI", "布林带", "KDJ"],
+      "confidence": [0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9],
+      "always_load": false,
+      "workspace_match": ["quant"]
+    },
+    {
+      "id": "project-skills",
+      "title": "项目：WorkBuddy Skills 生态",
+      "line_start": 40,
+      "line_end": 53,
+      "keywords": ["SKILL.md", "Skill", "触发词", "踩坑经验", "tushare-data", "skill-evolution"],
+      "confidence": [0.9, 0.9, 0.9, 0.9, 0.9, 0.7],
+      "always_load": false,
+      "workspace_match": ["skills"]
+    }
+  ],
+  "cross_session_patterns": [
+    {
+      "pattern": "量化数据查询",
+      "frequency": 8,
+      "last_seen": "2026-04-24",
+      "suggested_skill": "finance-data-retrieval"
+    }
+  ]
+}
+```
+
+#### 索引使用流程
+
+```
+会话开始
+    ↓
+读取 memory-index.json（~1KB，极低成本）
+    ↓
+匹配当前任务关键词与索引 keywords
+    ↓
+选择需要加载的 MEMORY.md 分区：
+    ├── always_load: true → 始终加载
+    ├── workspace_match 命中 → 加载（当前工作区路径匹配）
+    ├── keywords ≥ 2 个命中 → 加载
+    └── 其他 → 跳过
+    ↓
+用 read_file(path, offset, limit) 精准读取选定分区
+```
+
+#### 索引维护规则
+
+| 触发时机 | 维护动作 |
+|---------|---------|
+| 每次更新 MEMORY.md 后 | 同步更新索引中对应分区的 line_start/line_end |
+| 新增项目分区时 | 在索引中添加新 section |
+| 删除/压缩条目时 | 更新索引的 line 范围 |
+| 跨会话模式变化时 | 更新 cross_session_patterns |
+| memory-consolidation 整理后 | 全量重建索引 |
+
+#### 索引的局限（诚实标注）
+
+- 这是**关键词匹配**，不是真正的语义检索（向量嵌入）
+- 如果用户的表述与索引关键词不重叠，可能漏加载
+- 补救：执行中发现需要额外记忆时，中途补充读取
+- 理想方案：平台支持 SQLite FTS5 或向量检索
+
 ---
 
 ## 📋 四阶段工作流程
