@@ -10,20 +10,23 @@
 
 本项目的核心思路：**让 Agent 从"靠人工注入知识"进化到"从执行轨迹中自动学习"**。
 
-我们为 AI Agent 设计了三个核心 Skill，形成完整的自进化闭环：
+我们为 AI Agent 设计了**六个核心 Skill**，形成完整的自进化闭环：
 
 ```
-任务执行 → self-improvement（自我反思）
+用户请求 → 🔮 意图预判（self-improvement v2.1）→ 预加载最优 Skill
               ↓
-         发现改进点 → memory-consolidation（记忆整理）
-              ↓                      ↓
-         Skill 候选识别      经验沉淀到 MEMORY.md
-              ↓                      ↓
-         skill-evolution（技能进化）
+任务执行 → ⚡ 并行调用优化（workflow-loop v1.1）→ 减少等待
               ↓
-         自动优化触发词、追加踩坑经验、消化经验为显式步骤
+         完成 → 🔗 强制联动（workflow-loop v1.1）→ 自动触发审查/踩坑/候选
               ↓
-         下次执行时更聪明 ←←←←←←←←←
+         self-improvement（自我反思）
+              ↓
+         ├── memory-consolidation（记忆整理）→ 经验沉淀到 MEMORY.md
+         ├── skill-evolution（技能进化）→ 优化触发词、踩坑经验
+         ├── 💰 Token 预算管理（strategic-compact v1.1）→ 成本感知
+         └── Skill 候选识别 → 自动创建 Skill
+              ↓
+         下次执行时更聪明、更高效 ←←←←←←←←←
 ```
 
 ---
