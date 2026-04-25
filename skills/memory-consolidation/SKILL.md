@@ -1,6 +1,6 @@
 ---
 name: memory-consolidation
-version: 2.0.0
+version: 2.2.0
 description: >
   定期整理和压缩工作记忆，将短期日志提炼为长期记忆，保持记忆系统高效可用。
   支持项目隔离分区和置信度标记，防止跨项目知识污染。

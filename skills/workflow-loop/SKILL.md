@@ -1,6 +1,6 @@
 ---
 name: workflow-loop
-version: 1.2.0
+version: 1.3.0
 description: >
   标准工作流闭环模板库，提供四种常用开发流程的标准化定义。
   触发词：工作流、工作流闭环、流程模板、标准流程、Bug修复流程、
@@ -23,6 +23,7 @@ tools:
 - **Escalation Rules**（升级机制）
 - **上下游关系**（与其他 skill 的联动）
 - **Skill 注册表自省**（v1.2 新增，借鉴 Hermes 工具自省）
+- **Skill 精简加载**（v1.3 新增，按需加载 Skill 内容，控制上下文消耗）
 
 ---
 
@@ -82,6 +83,71 @@ skill-registry.json 自省结果：
 | Skill 版本升级后 | 更新 version 字段 |
 | Skill 触发词变更后 | 更新 trigger_keywords |
 | skill-evolution 审计时 | 验证注册表与实际 Skill 的一致性 |
+
+---
+
+## 🪶 Skill 精简加载（v1.3 新增）
+
+> **问题**：加载 2-3 个 Skill 后，大量 reference 文件和示例代码会迅速消耗上下文。
+> **方案**：Skill 加载时只注入核心流程，reference 文件按需读取。
+
+### 加载成本分级
+
+每个 Skill 加载到上下文时，根据内容结构分级读取：
+
+| 级别 | 读取内容 | 预估成本 | 使用场景 |
+|------|---------|---------|---------|
+| **L0 摘要** | YAML frontmatter（name + version + description） | ~100 tokens | 判断是否需要此 Skill |
+| **L1 核心** | YAML + 🎯 技能定位 + 📋 工作流程 | ~800 tokens | 执行 Skill 的主要流程 |
+| **L2 标准** | L1 + 联动规则 + Escalation + Completion Protocol | ~2000 tokens | 复杂任务，需要完整的错误处理 |
+| **L3 全量** | 整个 SKILL.md + references/ | ~5000+ tokens | 极少使用，仅在深度调试时 |
+
+### 按压力选择级别
+
+```
+上下文压力评估（与 strategic-compact v1.2 协同）
+    │
+    ├── 🟢 低压力 → 加载 L2（标准，确保完整流程）
+    │
+    ├── 🟡 中压力 → 加载 L1（核心，足够执行主要流程）
+    │   - 联动规则从 skill-registry.json 的 auto_triggers_after 获取
+    │   - Escalation 规则按需查看
+    │
+    ├── 🟠 高压力 → 加载 L1（核心），且：
+    │   - 不主动加载第二个 Skill
+    │   - 需要的信息用子智能体获取
+    │   - 非核心功能（示例、模板）跳过
+    │
+    └── 🔴 危险 → 加载 L0（摘要）：
+        - 只知道"有这个 Skill"
+        - 需要时用子智能体在独立上下文中加载和执行
+        - 立即建议用户压缩
+```
+
+### 大 Skill 的精简策略
+
+| Skill | 行数 | 精简建议 |
+|-------|------|---------|
+| workflow-loop | ~660 行 | 核心：闭环清单 + 强制联动矩阵；跳过：示例、详细步骤模板 |
+| self-improvement | ~300+ 行 | 核心：触发标准 + 自动创建流程 + 模式检测；跳过：模板细节 |
+| skill-evolution | ~400+ 行 | 核心：Phase 1-3 流程；跳过：报告格式模板、标准模板 |
+| strategic-compact | ~400+ 行 | 核心：阶段识别 + 压缩时机 + 压力感知；跳过：详细模板 |
+| code-review | ~200 行 | 标准加载，不算大 |
+
+### 与注册表自省的协同
+
+```
+任务开始
+    ↓
+Step 1: skill-registry.json 自省（L0 摘要级）→ 匹配到 N 个候选 Skill
+    ↓
+Step 2: 评估上下文压力
+    ↓
+Step 3: 决定加载策略
+    - 候选 1（最匹配）→ L1 或 L2 加载
+    - 候选 2+（备选）→ 不加载，记住名字，需要时再加载
+    - 候选 N（联动）→ 从 auto_triggers_after 获取触发关系，不预加载
+```
 
 ---
 
