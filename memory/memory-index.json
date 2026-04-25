@@ -86,5 +86,19 @@
       "key_lessons": ["v1.0-v1.4 渐进式演进", "每次只加 1-2 个新能力", "改动后必须同步 GitHub"]
     }
   ],
-  "quality_history": []
+  "quality_history": [],
+  "audit_history": [
+    {
+      "date": "2026-04-25",
+      "trigger": "v1.5 初始化",
+      "actions": [
+        {"type": "self_improvement", "version": "2.4.0", "summary": "v1.4 新增触发决策树+计数规则"},
+        {"type": "skill_evolution", "version": "1.4.0", "summary": "v1.4 新增依赖健康检查 Phase 3.6"},
+        {"type": "memory_consolidation", "version": "2.3.0", "summary": "v1.4 新增索引重建 Phase 5"},
+        {"type": "workflow_loop", "version": "1.4.0", "summary": "v1.5 新增注册表即时同步+联动验证清单"}
+      ],
+      "registry_synced": true,
+      "linkage_verified": false
+    }
+  ]
 }

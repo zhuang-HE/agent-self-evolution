@@ -1,6 +1,6 @@
 ---
 name: workflow-loop
-version: 1.3.0
+version: 1.4.0
 description: >
   标准工作流闭环模板库，提供四种常用开发流程的标准化定义。
   触发词：工作流、工作流闭环、流程模板、标准流程、Bug修复流程、
@@ -24,6 +24,8 @@ tools:
 - **上下游关系**（与其他 skill 的联动）
 - **Skill 注册表自省**（v1.2 新增，借鉴 Hermes 工具自省）
 - **Skill 精简加载**（v1.3 新增，按需加载 Skill 内容，控制上下文消耗）
+- **注册表即时同步**（v1.4 新增，Skill 变更后立即同步注册表，不等审计）
+- **联动验证清单**（v1.4 新增，任务前后验证 Skill 联动是否执行）
 
 ---
 
@@ -83,6 +85,101 @@ skill-registry.json 自省结果：
 | Skill 版本升级后 | 更新 version 字段 |
 | Skill 触发词变更后 | 更新 trigger_keywords |
 | skill-evolution 审计时 | 验证注册表与实际 Skill 的一致性 |
+
+### 注册表即时同步（v1.4 新增）
+
+> **问题**：v1.3 设计的注册表同步依赖 skill-evolution 审计（审计时才对比），
+> 但 Skill 版本升级是随时发生的，审计间隔可能很长。v1.4 实战发现 4 个版本漂移。
+> **方案**：Skill 变更后**立即**同步注册表，审计变成验证而非修正。
+
+```
+Skill 版本升级 / 触发词变更 / 新增 capability
+    ↓
+立即执行注册表同步（3 步，< 30 秒）
+
+Step 1: 更新 skill-registry.json
+  - version → 新版本号
+  - trigger_keywords → 新触发词列表
+  - capabilities → 新能力列表
+
+Step 2: 追加 registry_sync_log
+  - date: 今天
+  - trigger: "即时同步: {skill-name} v{old}→v{new}"
+  - updates: [{skill, action, reason}]
+
+Step 3: 验证
+  - 确认 JSON 格式正确
+  - 确认无重复条目
+```
+
+**不再允许的延迟操作**：
+- ❌ "下次审计再同步版本号" → 必须立即同步
+- ❌ "触发词先加了，注册表后面再改" → 一起改
+
+---
+
+## 🔗 联动验证清单（v1.4 新增）
+
+> **问题**：v1.1 定义了强制联动矩阵（代码→审查、重试→踩坑等），但实际执行中
+> 联动是否被执行、执行得是否正确，没有验证机制。规则写了但可能没遵循。
+> **方案**：任务开始前预判联动需求，任务完成后逐项验证。
+
+### Step 0.5 · 联动预判（任务开始时）
+
+```
+任务开始
+    ↓
+根据任务类型和强制联动矩阵，预判需要联动的 Skill：
+    │
+    ├── 代码修改类任务（write/replace .py/.ts/.js 等）
+    │       → 预计联动：code-review（等级 2，需确认）
+    │       → 预计联动：self-improvement（等级 1，自动）
+    │
+    ├── Skill 维护类任务
+    │       → 预计联动：skill-evolution（等级 1，自动）
+    │       → 预计联动：注册表同步（等级 1，自动）
+    │
+    ├── 量化/金融数据类任务
+    │       → 预计联动：self-improvement 踩坑记录（等级 1，自动）
+    │
+    └── 其他任务
+            → 可能无联动，或按需触发
+    ↓
+生成「联动预判清单」（不输出给用户，内部记录）
+```
+
+### 联动验证（任务完成时）
+
+```
+任务完成
+    ↓
+对照「联动预判清单」，逐项验证：
+    │
+    ├── ✅ 联动已执行 → 标记完成
+    │
+    ├── ⚠️ 联动被跳过（用户拒绝/不适用）→ 记录原因
+    │
+    └── ❌ 联动未执行且无合理原因 → 执行补救
+            - 如果是 code-review → 提醒用户："代码已修改但未审查，需要审查吗？"
+            - 如果是踩坑记录 → 补记
+            - 如果是注册表同步 → 补同步
+    ↓
+将验证结果追加到当次任务日志
+```
+
+### 验证记录格式
+
+```json
+{
+  "date": "2026-04-25",
+  "task_type": "功能开发",
+  "linkage_checklist": [
+    {"skill": "code-review", "expected": true, "actual": true, "status": "✅"},
+    {"skill": "self-improvement", "expected": true, "actual": true, "status": "✅"},
+    {"skill": "registry_sync", "expected": true, "actual": false, "reason": "版本未变更", "status": "⚠️"}
+  ]
+}
+```
 
 ---
 

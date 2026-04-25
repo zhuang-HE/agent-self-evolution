@@ -1,6 +1,6 @@
 ---
 name: memory-consolidation
-version: 2.3.0
+version: 2.4.0
 description: >
   定期整理和压缩工作记忆，将短期日志提炼为长期记忆，保持记忆系统高效可用。
   支持项目隔离分区和置信度标记，防止跨项目知识污染。
@@ -277,6 +277,45 @@ Step 5: 验证索引完整性
     - 无重复 id
     - 至少有一个 always_load: true 的 section
 ```
+
+### Phase 6 · Audit Trail（审计轨迹）（v2.4 新增）
+
+> **问题**：自进化系统的执行是否真的被遵循了？目前没有记录。
+> 比如上一轮审计记录了"需修正版本号"，下一轮是否真的修正了？
+> **方案**：每次 memory-consolidation 整理完成后，记录执行摘要到 audit_history。
+
+**记录内容**：
+
+```json
+{
+  "date": "YYYY-MM-DD",
+  "trigger": "手动触发 / 定期整理 / v{版本}初始化",
+  "actions": [
+    {"type": "consolidation", "summary": "归档了 3 个日志文件，提炼 12 条长期记忆"},
+    {"type": "prune", "summary": "删除 2 条过期信息，压缩 1 条冗余"}
+  ],
+  "memory_file_size_kb": 3,
+  "log_files_processed": 5,
+  "index_rebuilt": true,
+  "registry_synced": true,
+  "quality_score": null
+}
+```
+
+**与 memory-index.json 的协同**：
+
+audit_history 数组追加到 memory-index.json，每次整理后：
+- 如果 self-improvement 在本轮也执行了反思 → quality_score 填入评分
+- 如果 skill-evolution 在本轮也执行了审计 → 追加 skill_evolution 审计摘要
+- 如果 workflow-loop 的联动验证也执行了 → linkage_verified 标记为 true
+
+**审计轨迹的用途**：
+
+| 用途 | 怎么用 |
+|------|--------|
+| 验证规则遵循度 | 检查 audit_history 中"应做"和"实际做"的差异 |
+| 识别僵尸规则 | 某规则连续 5 次审计都未执行 → 标记为低效规则 |
+| 质量趋势 | quality_score 的时间序列反映进化效果 |
 
 ---
 

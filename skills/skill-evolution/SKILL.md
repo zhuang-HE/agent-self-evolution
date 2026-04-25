@@ -1,6 +1,6 @@
 ---
 name: skill-evolution
-version: 1.4.0
+version: 1.5.0
 description: >
   Skill 自动进化管理器，审计所有 Skill 的触发词覆盖率和踩坑经验，自动优化更新。
   触发词：skill 进化、skill 升级、优化 skill、审计 skill、skill 自进化、
@@ -165,7 +165,7 @@ tools:
 │                                      │ 内容自动推断   │
 └─────────────────────────────────────┴──────────────┘
     ↓
-生成同步报告（纳入 Phase 4 总报告）
+生成同步报告（纳入 Phase 5 总报告）
 ```
 
 **自动推断 capabilities 的规则**：
@@ -216,7 +216,7 @@ tools:
 │                                 │ 是否有对应条目      │ 建议：安装 MCP Server  │
 └─────────────────────────────────┴──────────────────┴──────────────────────┘
     ↓
-生成依赖健康报告（纳入 Phase 4 总报告）
+生成依赖健康报告（纳入 Phase 5 总报告）
 ```
 
 **检查命令参考**：
@@ -249,7 +249,83 @@ tools:
 - 用户可能因为配置问题而无法使用 Skill，但不知道问题出在哪
 - 审计时可以顺便提供配置指引，提升用户体验
 
-### Phase 4 · Report（报告）
+### Phase 4 · Health Score（健康度评分）（v1.5 新增）
+
+> **问题**：skill-evolution 审计报告是"一次性文本"，没有持久化的量化评分。
+> 无法追踪 Skill 健康度的变化趋势。
+> **方案**：每个 Skill 计算健康度评分，持久化到 skill-registry.json。
+
+**评分维度**（每项 0-100，加权平均）：
+
+| 维度 | 权重 | 评估方法 | 数据来源 |
+|------|------|---------|---------|
+| **版本同步** | 20% | 注册表版本与 SKILL.md 版本是否一致 | skill-registry.json vs SKILL.md frontmatter |
+| **触发词覆盖** | 25% | 触发词数量 + 最近 30 天是否有触发盲区 | trigger_keywords 数量 + audit_history |
+| **踩坑经验** | 15% | 是否有踩坑经验记录，经验是否被消化 | SKILL.md 踩坑区 |
+| **依赖可用** | 20% | depends_on 中的依赖是否就绪 | Phase 3.6 依赖健康检查 |
+| **活跃度** | 20% | 最近 30 天是否被使用/更新 | usage_stats + registry_sync_log |
+
+**评分计算**：
+
+```
+health_score = version_sync * 0.20
+             + trigger_coverage * 0.25
+             + pitfall_richness * 0.15
+             + dependency_ready * 0.20
+             + activity * 0.20
+
+每个维度的得分规则：
+- version_sync: 一致=100，不一致=0
+- trigger_coverage: min(trigger_count * 10, 100)，如果有盲区记录 -20
+- pitfall_richness: 有踩坑经验=60，有已整合经验=80，≥5条=100，无=30
+- dependency_ready: 全部可用=100，部分缺失=50，全部缺失=0
+- activity: 30天内有使用=100，有更新=80，无活跃=40
+```
+
+**健康等级**：
+
+| 分数 | 等级 | 含义 | 行动 |
+|------|------|------|------|
+| ≥ 80 | 🟢 健康 | 运行良好 | 维持 |
+| 60-79 | 🟡 注意 | 有改进空间 | 下次审计时优化 |
+| 40-59 | 🟠 亚健康 | 明显短板 | 优先处理 |
+| < 40 | 🔴 不健康 | 需要关注 | 立即修复 |
+
+**持久化**：
+
+在 skill-registry.json 的每个 Skill 条目中增加：
+
+```json
+{
+  "name": "self-improvement",
+  "health_score": 85,
+  "health_grade": "🟢",
+  "health_details": {
+    "version_sync": 100,
+    "trigger_coverage": 90,
+    "pitfall_richness": 60,
+    "dependency_ready": 100,
+    "activity": 100
+  },
+  "health_last_assessed": "2026-04-25"
+}
+```
+
+**趋势追踪**：
+
+在 audit_history 中追加评分历史，用于分析健康度变化：
+
+```json
+{
+  "date": "2026-04-25",
+  "skill": "self-improvement",
+  "health_score": 85,
+  "health_delta": +10,
+  "reason": "新增触发决策树，触发词覆盖率提升"
+}
+```
+
+### Phase 5 · Report（报告）
 ```
 生成进化报告，包含：
 - 审计的 Skill 总数

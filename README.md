@@ -15,24 +15,26 @@
 ```
 用户请求 → 🔮 意图预判（self-improvement v2.4）
               ↓ 扫描 skill-registry.json（~1KB）
-         📋 工具自省（workflow-loop v1.3）→ 匹配最优 Skill
+         📋 工具自省（workflow-loop v1.4）→ 匹配最优 Skill
               ↓ 🪶 按压力分级加载（L0-L3）
+         📝 联动预判（v1.4 新增）→ 规划需要联动的 Skill
+              ↓
          🔄 跨会话模式检测 → 识别重复模式 → 主动推荐
               ↓
-任务执行 → ⚡ 并行调用优化（workflow-loop v1.3）→ 减少等待
+任务执行 → ⚡ 并行调用优化（workflow-loop v1.4）→ 减少等待
               ↓ 📡 上下文压力感知（strategic-compact v1.2）
-         完成 → 🔗 强制联动 → 自动触发审查/踩坑/候选
+         完成 → 🔗 强制联动 → 联动验证（v1.4 新增）
               ↓
          self-improvement（自我反思 + 质量评分 v2.4）
               ↓
          ├── 🆕 Skill 自动创建（v2.2）→ 提取模式→生成模板→用户审核
-         ├── memory-consolidation（记忆整理）
-         │     └── 📋 记忆索引（memory-index.json）→ 按需检索 + 自动重建
-         ├── skill-evolution（技能进化）
-         │     └── 🆕 踩坑经验消化（v1.2）+ 注册表同步（v1.3）+ 依赖检查（v1.4）
+         ├── memory-consolidation（记忆整理 + 审计轨迹 v2.4）
+         │     └── 📋 记忆索引（memory-index.json）→ 按需检索 + 索引重建 + 审计历史
+         ├── skill-evolution（技能进化 + 健康度评分 v1.5）
+         │     └── 🆕 踩坑经验消化（v1.2）+ 注册表即时同步（v1.4）+ 依赖检查（v1.4）+ 健康度仪表盘（v1.5）
          ├── 💰 Token 预算 + 上下文压力管理（strategic-compact v1.2）
-         ├── 📊 质量评分 → memory-index.json quality_history
-         └── 📋 Skill 注册表更新（版本 + capabilities + 依赖状态）
+         ├── 📊 质量评分 → memory-index.json quality_history + audit_history
+         └── 📋 Skill 注册表即时同步（v1.4 新增：变更后立即同步）
               ↓
          下次执行时更聪明、更高效 ←←←←←←←←←
 ```
@@ -51,11 +53,11 @@ agent-self-evolution/
 │   ├── self-improvement/
 │   │   └── SKILL.md                   # 自我优化 Skill（v2.4）
 │   ├── workflow-loop/
-│   │   └── SKILL.md                   # 工作流闭环 Skill（v1.3）
+│   │   └── SKILL.md                   # 工作流闭环 Skill（v1.4）
 │   ├── memory-consolidation/
-│   │   └── SKILL.md                   # 记忆整理 Skill（v2.3）
+│   │   └── SKILL.md                   # 记忆整理 Skill（v2.4）
 │   ├── skill-evolution/
-│   │   └── SKILL.md                   # 技能进化 Skill（v1.4）
+│   │   └── SKILL.md                   # 技能进化 Skill（v1.5）
 │   └── strategic-compact/
 │       └── SKILL.md                   # 上下文压缩 Skill（v1.2）
 ├── memory/

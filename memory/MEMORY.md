@@ -90,11 +90,16 @@
 16. **上下文压力感知**：strategic-compact v1.2 代理指标推断压力，4 级响应策略 + 大文件保护 + Skill 加载成本控制
 17. **Skill 精简加载**：workflow-loop v1.3 L0-L3 分级加载，按上下文压力选择级别
 18. **质量反馈回路**：self-improvement v2.3 5 维评分体系 + quality_history 趋势追踪
+19. **Skill 注册表首同步**：v1.4 实战执行注册表同步，修正 4 个版本偏差 + capabilities 同步 + 新增 registry_sync_log
+20. **跨会话模式增强**：memory-index.json 新增 key_lessons 字段 + "自进化系统迭代"模式
+21. **自动触发决策树**：self-improvement v2.4 6 级优先级触发 + 工具调用计数规则
+22. **依赖健康检查**：skill-evolution v1.4 审计时验证 depends_on 环境变量/依赖可用性
+23. **索引自动重建**：memory-consolidation v2.3 整理后全量重建 memory-index.json 行号
 
 ### 下一步计划 📋
 1. **实战验证**（高优先级）：在真实任务中验证所有新能力的端到端效果
 2. **数据驱动改进**（高优先级）：积累 ≥ 10 次质量评分后，分析系统性短板
-3. **版本一致性维护**（中优先级）：确保 Skill 版本号、注册表、索引三者始终同步
+3. **持续集成**（中优先级）：Skill 版本升级后自动同步注册表
 
 ### 平台层改进建议（需 WorkBuddy 官方支持）📋
 1. **上下文压缩智能保留**：让 Agent 标记"关键上下文段"（critical context），自动压缩时保留文件路径、函数签名、错误信息，丢弃寒暄和重复内容
