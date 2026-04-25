@@ -1,6 +1,6 @@
 ---
 name: skill-evolution
-version: 1.3.0
+version: 1.4.0
 description: >
   Skill 自动进化管理器，审计所有 Skill 的触发词覆盖率和踩坑经验，自动优化更新。
   触发词：skill 进化、skill 升级、优化 skill、审计 skill、skill 自进化、
@@ -188,11 +188,73 @@ tools:
 | Skill 版本升级 | 更新 version + trigger_keywords |
 | 记忆索引更新 | 如涉及 Skill 类别变化，同步更新 |
 
+### Phase 3.6 · Dependency Health Check（依赖健康检查）（v1.4 新增）
+
+> **问题**：skill-registry.json 中的 `depends_on` 字段是静态的，没有机制检查依赖是否就绪。
+> **方案**：审计时验证关键依赖的可用性，标记不可用的 Skill。
+
+**检查流程**：
+
+```
+扫描 skill-registry.json 中所有 depends_on 不为空的 Skill
+    ↓
+分类检查：
+
+┌─────────────────────────────────┬──────────────────┬──────────────────────┐
+│ 依赖类型                         │ 检查方式          │ 不可用时处理           │
+├─────────────────────────────────┼──────────────────┼──────────────────────┤
+│ 环境变量（如 TUSHARE_TOKEN）     │ 检查系统环境变量    │ 报告：⚠️ 缺少配置     │
+│                                 │ 是否已设置         │ 建议：用户需配置       │
+├─────────────────────────────────┼──────────────────┼──────────────────────┤
+│ 外部工具（如 AkShare、Node.js） │ 尝试执行 --version │ 报告：❌ 未安装        │
+│                                 │ 命令验证           │ 建议：提供安装指引     │
+├─────────────────────────────────┼──────────────────┼──────────────────────┤
+│ API Key（如 TMAP_*_KEY）        │ 检查系统环境变量    │ 报告：⚠️ 缺少 Key     │
+│                                 │ 是否已设置         │ 建议：注册并配置       │
+├─────────────────────────────────┼──────────────────┼──────────────────────┤
+│ MCP Server（如 mcp-connector）  │ 检查 mcp.json     │ 报告：⚠️ 未配置       │
+│                                 │ 是否有对应条目      │ 建议：安装 MCP Server  │
+└─────────────────────────────────┴──────────────────┴──────────────────────┘
+    ↓
+生成依赖健康报告（纳入 Phase 4 总报告）
+```
+
+**检查命令参考**：
+
+| 依赖 | 验证命令 |
+|------|---------|
+| Python 包（AkShare 等） | `python -c "import akshare; print(akshare.__version__)"` |
+| Node.js 依赖 | `node -e "try{require('pkg')}catch(e){process.exit(1)}"` |
+| 环境变量 | PowerShell: `[System.Environment]::GetEnvironmentVariable('VAR_NAME')` |
+| MCP 配置 | 读取 `~/.workbuddy/mcp.json` 检查对应 server 条目 |
+
+**依赖状态标记**：
+
+在 skill-registry.json 中为每个 Skill 增加 `dependency_status` 字段（仅在审计后更新）：
+
+```json
+{
+  "name": "tushare-data",
+  "depends_on": ["TUSHARE_TOKEN 环境变量"],
+  "dependency_status": {
+    "TUSHARE_TOKEN": "✅ 已配置",
+    "last_checked": "2026-04-25"
+  }
+}
+```
+
+**审计优先级调整**：
+
+依赖不健康的 Skill 应该**优先审计**，因为：
+- 用户可能因为配置问题而无法使用 Skill，但不知道问题出在哪
+- 审计时可以顺便提供配置指引，提升用户体验
+
 ### Phase 4 · Report（报告）
 ```
 生成进化报告，包含：
 - 审计的 Skill 总数
 - 注册表同步结果（新增/移除/更新的 Skill 数）
+- 依赖健康检查结果（可用/不可用/未配置）
 - 每个 Skill 的变更摘要
 - 新增触发词列表
 - 新增踩坑经验列表

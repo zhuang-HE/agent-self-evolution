@@ -1,6 +1,6 @@
 {
-  "version": "1.0",
-  "last_updated": "2026-04-24",
+  "version": "1.1",
+  "last_updated": "2026-04-25",
   "description": "Skill 元数据注册表 - 模拟 Hermes 工具自省，实现能力快速扫描",
   "total_skills": 32,
   "categories": {
@@ -9,46 +9,46 @@
       "skills": [
         {
           "name": "self-improvement",
-          "version": "2.2.0",
+          "version": "2.4.0",
           "path": "~/.workbuddy/skills/self-improvement/SKILL.md",
-          "trigger_keywords": ["自我优化", "反思", "复盘", "总结经验"],
-          "capabilities": ["执行反思", "意图预判", "Skill候选识别", "Skill自动创建", "跨会话模式检测"],
+          "trigger_keywords": ["自我优化", "反思", "复盘", "总结经验", "自我改进", "工作复盘"],
+          "capabilities": ["执行反思", "意图预判", "Skill候选识别", "Skill自动创建", "跨会话模式检测", "质量反馈评分", "精细化触发机制"],
           "depends_on": [],
           "auto_triggers_after": ["任何复杂任务完成"]
         },
         {
           "name": "memory-consolidation",
-          "version": "2.2.0",
+          "version": "2.3.0",
           "path": "~/.workbuddy/skills/memory-consolidation/SKILL.md",
           "trigger_keywords": ["整理记忆", "压缩记忆", "清理日志"],
-          "capabilities": ["记忆整理", "日志归档", "记忆索引维护", "按需检索"],
+          "capabilities": ["记忆整理", "日志归档", "记忆索引维护", "按需检索", "索引自动重建"],
           "depends_on": [],
           "auto_triggers_after": []
         },
         {
           "name": "skill-evolution",
-          "version": "1.2.0",
+          "version": "1.4.0",
           "path": "~/.workbuddy/skills/skill-evolution/SKILL.md",
-          "trigger_keywords": ["skill进化", "优化skill", "审计skill"],
-          "capabilities": ["触发词优化", "踩坑经验管理", "经验自动消化", "Skill健康评分"],
+          "trigger_keywords": ["skill进化", "优化skill", "审计skill", "技能进化", "触发词优化"],
+          "capabilities": ["触发词优化", "踩坑经验管理", "经验自动消化", "Skill健康评分", "注册表自动同步", "依赖健康检查"],
           "depends_on": [],
           "auto_triggers_after": ["self-improvement 发现触发词盲区"]
         },
         {
           "name": "workflow-loop",
-          "version": "1.1.0",
+          "version": "1.3.0",
           "path": "~/.workbuddy/skills/workflow-loop/SKILL.md",
-          "trigger_keywords": ["工作流", "工作流闭环", "流程模板"],
-          "capabilities": ["标准闭环模板", "并行调用优化", "强制联动编排"],
+          "trigger_keywords": ["工作流", "工作流闭环", "流程模板", "开发流程"],
+          "capabilities": ["标准闭环模板", "并行调用优化", "强制联动编排", "Skill注册表自省", "Skill精简加载"],
           "depends_on": [],
           "auto_triggers_after": []
         },
         {
           "name": "strategic-compact",
-          "version": "1.1.0",
+          "version": "1.2.0",
           "path": "~/.workbuddy/skills/strategic-compact/SKILL.md",
-          "trigger_keywords": ["上下文压缩", "strategic compact"],
-          "capabilities": ["智能压缩", "Token预算管理", "成本感知"],
+          "trigger_keywords": ["上下文压缩", "strategic compact", "上下文压力"],
+          "capabilities": ["智能压缩", "Token预算管理", "成本感知", "上下文压力感知"],
           "depends_on": [],
           "auto_triggers_after": []
         }
@@ -316,8 +316,24 @@
     }
   },
   "usage_stats": {
-    "last_updated": "2026-04-24",
+    "last_updated": "2026-04-25",
     "most_used": ["finance-data-retrieval", "self-improvement", "git-workflow", "code-review"],
     "rarely_used": ["tencentmap-*", "harmonyos-app-dev", "学术引用管理"]
-  }
+  },
+  "registry_sync_log": [
+    {
+      "date": "2026-04-25",
+      "trigger": "v1.4 初始化同步",
+      "updates": [
+        {"skill": "self-improvement", "action": "version 2.2.0→2.3.0", "reason": "v2.3 新增质量反馈评分"},
+        {"skill": "skill-evolution", "action": "version 1.2.0→1.3.0", "reason": "v1.3 新增注册表自动同步"},
+        {"skill": "workflow-loop", "action": "version 1.1.0→1.3.0", "reason": "v1.3 新增精简加载 + v1.2 注册表自省"},
+        {"skill": "strategic-compact", "action": "version 1.1.0→1.2.0", "reason": "v1.2 新增上下文压力感知"},
+        {"skill": "self-improvement", "action": "capabilities +质量反馈评分", "reason": "v2.3 新增"},
+        {"skill": "skill-evolution", "action": "capabilities +注册表自动同步", "reason": "v1.3 新增"},
+        {"skill": "workflow-loop", "action": "capabilities +Skill注册表自省 +Skill精简加载", "reason": "v1.2/v1.3 新增"},
+        {"skill": "strategic-compact", "action": "capabilities +上下文压力感知", "reason": "v1.2 新增"}
+      ]
+    }
+  ]
 }

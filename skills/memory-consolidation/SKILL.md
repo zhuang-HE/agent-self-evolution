@@ -1,6 +1,6 @@
 ---
 name: memory-consolidation
-version: 2.2.0
+version: 2.3.0
 description: >
   定期整理和压缩工作记忆，将短期日志提炼为长期记忆，保持记忆系统高效可用。
   支持项目隔离分区和置信度标记，防止跨项目知识污染。
@@ -233,6 +233,49 @@ MEMORY.md 采用 **项目隔离分区** 设计，防止跨项目知识污染：
 2. 压缩冗余日志（30天以上 → 归档到 MEMORY.md）
 3. 删除已归档的日志文件（可选，需用户确认）
 4. 报告整理结果
+```
+
+### Phase 5 · Rebuild Index（索引重建）（v2.3 新增）
+
+> **问题**：MEMORY.md 每次更新都会导致行号偏移，但 memory-index.json 的 sections.line_start/line_end
+> 不会自动更新。随着时间推移，索引的行号越来越不准确，导致按需读取定位偏差。
+> **方案**：每次 memory-consolidation 整理完成后，全量重建索引。
+
+**重建流程**：
+
+```
+Phase 3/4 完成，MEMORY.md 已更新
+    ↓
+Step 1: 读取 MEMORY.md 全文
+    ↓
+Step 2: 扫描所有 ## 标题行，提取分区信息
+    │
+    │ 对每个 ## 标题行：
+    │   - 记录行号（line_start）
+    │   - 找到下一个 ## 标题行的行号 - 1（line_end）
+    │   - 提取关键词（从该分区的条目中提取非停用词）
+    │   - 检查 always_load（"通用偏好" = true）
+    │   - 检查 workspace_match（从标题和内容推断）
+    ↓
+Step 3: 对比现有索引
+    │
+    │ 检测以下变化：
+    │ - 新增分区（MEMORY.md 有，索引无）→ 添加
+    │ - 删除分区（MEMORY.md 无，索引有）→ 移除
+    │ - 行号偏移（line_start/line_end 不匹配）→ 更新
+    │ - 关键词变化 → 更新
+    ↓
+Step 4: 更新 memory-index.json
+    - version + 0.1
+    - last_updated = 今天日期
+    - memory_file_size_kb = 实际文件大小
+    - sections = 重建后的数组
+    ↓
+Step 5: 验证索引完整性
+    - 每个 section 的 line_start < line_end
+    - 所有 section 的 line_start 按升序排列
+    - 无重复 id
+    - 至少有一个 always_load: true 的 section
 ```
 
 ---

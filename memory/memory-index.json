@@ -1,6 +1,6 @@
 {
-  "version": "1.0",
-  "last_updated": "2026-04-24",
+  "version": "1.1",
+  "last_updated": "2026-04-25",
   "memory_file_size_kb": 3,
   "sections": [
     {
@@ -61,19 +61,29 @@
       "pattern": "金融数据查询",
       "frequency": 8,
       "last_seen": "2026-04-24",
-      "suggested_skill": "finance-data-retrieval"
+      "suggested_skill": "finance-data-retrieval",
+      "key_lessons": ["ts_code 必须带交易所后缀", "neodata 优先于结构化 API", "频率参数用 1min/5min/15min"]
     },
     {
       "pattern": "量化系统开发",
-      "frequency": 6,
-      "last_seen": "2026-04-24",
-      "suggested_skill": "stock-analyst"
+      "frequency": 7,
+      "last_seen": "2026-04-25",
+      "suggested_skill": "stock-analyst",
+      "key_lessons": ["Streamlit 不用 st.markdown 渲染 HTML", "五维分析需要财报数据支撑", "UI 深色主题 #0a0e17"]
     },
     {
       "pattern": "Skill 生态维护",
-      "frequency": 5,
-      "last_seen": "2026-04-24",
-      "suggested_skill": "skill-evolution"
+      "frequency": 10,
+      "last_seen": "2026-04-25",
+      "suggested_skill": "skill-evolution",
+      "key_lessons": ["版本号与 SKILL.md 内容要同步", "注册表和实际 Skill 容易漂移", "触发词要简洁通用"]
+    },
+    {
+      "pattern": "自进化系统迭代",
+      "frequency": 4,
+      "last_seen": "2026-04-25",
+      "suggested_skill": "self-improvement",
+      "key_lessons": ["v1.0-v1.4 渐进式演进", "每次只加 1-2 个新能力", "改动后必须同步 GitHub"]
     }
   ],
   "quality_history": []

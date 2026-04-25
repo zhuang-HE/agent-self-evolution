@@ -13,7 +13,7 @@
 我们为 AI Agent 设计了**六个核心 Skill**，形成完整的自进化闭环：
 
 ```
-用户请求 → 🔮 意图预判（self-improvement v2.3）
+用户请求 → 🔮 意图预判（self-improvement v2.4）
               ↓ 扫描 skill-registry.json（~1KB）
          📋 工具自省（workflow-loop v1.3）→ 匹配最优 Skill
               ↓ 🪶 按压力分级加载（L0-L3）
@@ -23,16 +23,16 @@
               ↓ 📡 上下文压力感知（strategic-compact v1.2）
          完成 → 🔗 强制联动 → 自动触发审查/踩坑/候选
               ↓
-         self-improvement（自我反思 + 质量评分 v2.3）
+         self-improvement（自我反思 + 质量评分 v2.4）
               ↓
          ├── 🆕 Skill 自动创建（v2.2）→ 提取模式→生成模板→用户审核
          ├── memory-consolidation（记忆整理）
-         │     └── 📋 记忆索引（memory-index.json）→ 按需检索
+         │     └── 📋 记忆索引（memory-index.json）→ 按需检索 + 自动重建
          ├── skill-evolution（技能进化）
-         │     └── 🆕 踩坑经验消化（v1.2）+ 注册表同步（v1.3）
+         │     └── 🆕 踩坑经验消化（v1.2）+ 注册表同步（v1.3）+ 依赖检查（v1.4）
          ├── 💰 Token 预算 + 上下文压力管理（strategic-compact v1.2）
          ├── 📊 质量评分 → memory-index.json quality_history
-         └── 📋 Skill 注册表更新
+         └── 📋 Skill 注册表更新（版本 + capabilities + 依赖状态）
               ↓
          下次执行时更聪明、更高效 ←←←←←←←←←
 ```
@@ -49,13 +49,13 @@ agent-self-evolution/
 │   └── hermes-analysis.md             # Hermes Agent 借鉴分析报告
 ├── skills/
 │   ├── self-improvement/
-│   │   └── SKILL.md                   # 自我优化 Skill（v2.3）
+│   │   └── SKILL.md                   # 自我优化 Skill（v2.4）
 │   ├── workflow-loop/
 │   │   └── SKILL.md                   # 工作流闭环 Skill（v1.3）
 │   ├── memory-consolidation/
-│   │   └── SKILL.md                   # 记忆整理 Skill（v2.2）
+│   │   └── SKILL.md                   # 记忆整理 Skill（v2.3）
 │   ├── skill-evolution/
-│   │   └── SKILL.md                   # 技能进化 Skill（v1.3）
+│   │   └── SKILL.md                   # 技能进化 Skill（v1.4）
 │   └── strategic-compact/
 │       └── SKILL.md                   # 上下文压缩 Skill（v1.2）
 ├── memory/
