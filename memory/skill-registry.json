@@ -1,6 +1,6 @@
 {
-  "version": "1.2",
-  "last_updated": "2026-04-25",
+  "version": "1.3",
+  "last_updated": "2026-04-27",
   "description": "Skill 元数据注册表 - 模拟 Hermes 工具自省，实现能力快速扫描",
   "total_skills": 32,
   "categories": {
@@ -9,46 +9,46 @@
       "skills": [
         {
           "name": "self-improvement",
-          "version": "2.4.0",
+          "version": "2.6.0",
           "path": "~/.workbuddy/skills/self-improvement/SKILL.md",
           "trigger_keywords": ["自我优化", "反思", "复盘", "总结经验", "自我改进", "工作复盘"],
-          "capabilities": ["执行反思", "意图预判", "Skill候选识别", "Skill自动创建", "跨会话模式检测", "质量反馈评分", "精细化触发机制"],
+          "capabilities": ["执行反思", "意图预判", "Skill候选识别", "Skill自动创建", "跨会话模式检测", "质量反馈评分", "精细化触发机制", "4维反思框架"],
           "depends_on": [],
           "auto_triggers_after": ["任何复杂任务完成"]
         },
         {
           "name": "memory-consolidation",
-          "version": "2.4.0",
+          "version": "3.0.0",
           "path": "~/.workbuddy/skills/memory-consolidation/SKILL.md",
           "trigger_keywords": ["整理记忆", "压缩记忆", "清理日志"],
-          "capabilities": ["记忆整理", "日志归档", "记忆索引维护", "按需检索", "索引自动重建", "审计轨迹记录"],
+          "capabilities": ["记忆整理", "日志归档", "记忆索引维护", "按需检索", "索引自动重建", "审计轨迹记录", "项目隔离分区"],
           "depends_on": [],
           "auto_triggers_after": []
         },
         {
           "name": "skill-evolution",
-          "version": "1.5.0",
+          "version": "2.1.0",
           "path": "~/.workbuddy/skills/skill-evolution/SKILL.md",
           "trigger_keywords": ["skill进化", "优化skill", "审计skill", "技能进化", "触发词优化"],
-          "capabilities": ["触发词优化", "踩坑经验管理", "经验自动消化", "Skill健康评分", "注册表自动同步", "依赖健康检查", "健康度仪表盘"],
+          "capabilities": ["触发词优化", "踩坑经验管理", "经验自动消化", "Skill健康评分", "注册表自动同步", "依赖健康检查", "健康度仪表盘", "6Phase审计"],
           "depends_on": [],
           "auto_triggers_after": ["self-improvement 发现触发词盲区"]
         },
         {
           "name": "workflow-loop",
-          "version": "1.4.0",
+          "version": "2.1.0",
           "path": "~/.workbuddy/skills/workflow-loop/SKILL.md",
           "trigger_keywords": ["工作流", "工作流闭环", "流程模板", "开发流程"],
-          "capabilities": ["标准闭环模板", "并行调用优化", "强制联动编排", "Skill注册表自省", "Skill精简加载", "注册表即时同步", "联动验证清单"],
+          "capabilities": ["标准闭环模板", "并行调用优化", "强制联动编排", "Skill注册表自省", "Skill精简加载", "注册表即时同步", "联动验证清单", "4种标准闭环"],
           "depends_on": [],
           "auto_triggers_after": []
         },
         {
           "name": "strategic-compact",
-          "version": "1.2.0",
+          "version": "2.1.0",
           "path": "~/.workbuddy/skills/strategic-compact/SKILL.md",
           "trigger_keywords": ["上下文压缩", "strategic compact", "上下文压力"],
-          "capabilities": ["智能压缩", "Token预算管理", "成本感知", "上下文压力感知"],
+          "capabilities": ["智能压缩", "Token预算管理", "成本感知", "上下文压力感知", "任务生命周期集成"],
           "depends_on": [],
           "auto_triggers_after": []
         }
@@ -372,6 +372,17 @@
         {"skill": "tencentmap-lbs-skill", "action": "dependency_status: TMAP_WEBSERVICE_KEY ⚠️", "reason": "v1.4 Phase 3.6 实战验证"},
         {"skill": "tencentmap-miniprogram-skill", "action": "dependency_status: TMAP_MINIPROGRAM_KEY ⚠️", "reason": "v1.4 Phase 3.6 实战验证"},
         {"skill": "tencentmap-webservice-skill", "action": "dependency_status: TMAP_WEBSERVICE_KEY ⚠️", "reason": "v1.4 Phase 3.6 实战验证"}
+      ]
+    },
+    {
+      "date": "2026-04-27",
+      "trigger": "v1.6 即时同步（Token 瘦身）",
+      "updates": [
+        {"skill": "self-improvement", "action": "version 2.4.0→2.6.0", "reason": "v1.6 Token 瘦身 230→118 行"},
+        {"skill": "workflow-loop", "action": "version 1.4.0→2.1.0", "reason": "v1.6 Token 瘦身 175→74 行"},
+        {"skill": "skill-evolution", "action": "version 1.5.0→2.1.0", "reason": "v1.6 Token 瘦身 187→106 行"},
+        {"skill": "memory-consolidation", "action": "version 2.4.0→3.0.0", "reason": "v1.6 Token 瘦身 430→69 行 + 新建 references/"},
+        {"skill": "strategic-compact", "action": "version 1.2.0→2.1.0", "reason": "v1.6 微调 152→90 行"}
       ]
     }
   ]

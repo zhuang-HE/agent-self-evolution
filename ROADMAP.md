@@ -58,6 +58,13 @@
 - [x] 🆕 Skill 健康度评分（skill-evolution v1.5）：5 维加权评分 + 健康等级 + 趋势追踪
 - [x] 🆕 依赖检查实战验证（v1.5）：tushare-data ✅ / stock-analyst ✅ / 地图 Skill ⚠️ Key 未配置
 
+### Token 瘦身（v1.6）
+- [x] 🆕 memory-consolidation v3.0：430→69 行（-84%），详细协议移入 references/detailed-protocols.md
+- [x] 🆕 workflow-loop v2.1：175→74 行（-58%），详细流程图移入 references/closed-loop-details.md
+- [x] 🆕 skill-evolution v2.1：187→106 行（-43%），审计细节已在 references/detailed-audit-flows.md
+- [x] 🆕 self-improvement v2.6：230→118 行（-49%），评分/模板已在 references/detailed-flows-and-templates.md
+- [x] 🆕 strategic-compact v2.1：152→90 行（-41%），微调精简
+
 ---
 
 ## 📋 下一步计划
@@ -114,3 +121,4 @@
 | v1.3 运行时效率优化 | 2026-04-25 ✅ | 注册表同步 + 压力感知 + 精简加载 + 质量反馈 + 版本修正 |
 | v1.4 数据治理与实战准备 | 2026-04-25 ✅ | 注册表首同步 + 模式增强 + 触发决策树 + 依赖检查 + 索引重建 |
 | v1.5 从规则走向状态 | 2026-04-25 ✅ | 即时同步 + 联动验证 + 审计轨迹 + 健康度评分 + 依赖验证 |
+| v1.6 Token 瘦身 | 2026-04-27 ✅ | 5 个核心 SKILL.md 总计 1113→457 行（-59%），详细内容移入 references/ |
