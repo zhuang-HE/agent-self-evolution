@@ -1,6 +1,6 @@
 ---
 name: skill-evolution
-version: 2.1.0
+version: 2.2.0
 description: >
   Skill 自动进化管理器（STOM v2.0 瘦身版）。
   审计所有 Skill 的触发词覆盖率和踩坑经验，自动优化更新。

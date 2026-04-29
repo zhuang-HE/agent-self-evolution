@@ -65,6 +65,15 @@
 - [x] 🆕 self-improvement v2.6：230→118 行（-49%），评分/模板已在 references/detailed-flows-and-templates.md
 - [x] 🆕 strategic-compact v2.1：152→90 行（-41%），微调精简
 
+### 借鉴 Hermes Agent 双文（v1.7）
+- [x] 🆕 memory-consolidation v4.0：MEMORY.md 容量硬限制 ≤4000 chars（借鉴 Hermes 2200 chars 限制设计）
+- [x] 🆕 memory-consolidation v4.0：声明式事实 vs 操作步骤分离（Memory 存事实，Skill 存步骤）
+- [x] 🆕 self-improvement v3.0：D5 序列模式维度（跨 turn 模式检测，借鉴 Hermes 双重视角审计）
+- [x] 🆕 self-improvement v3.0：Skill 候选扩展触发（跨会话重复 + D5 模式识别均可触发）
+- [x] 🆕 self-improvement v3.0：效率审计 addendum（借鉴 Hermes SECURITY_ADDENDUM 设计）
+- [x] 🆕 workflow-loop v3.0：Skill 即时 Patch 规则（发现不符立即修正，patch 优先于重写）
+- [x] 🆕 skill-evolution v2.2：Skill 生命周期管理（last_used / use_count / status 优胜劣汰）
+
 ---
 
 ## 📋 下一步计划
@@ -122,3 +131,4 @@
 | v1.4 数据治理与实战准备 | 2026-04-25 ✅ | 注册表首同步 + 模式增强 + 触发决策树 + 依赖检查 + 索引重建 |
 | v1.5 从规则走向状态 | 2026-04-25 ✅ | 即时同步 + 联动验证 + 审计轨迹 + 健康度评分 + 依赖验证 |
 | v1.6 Token 瘦身 | 2026-04-27 ✅ | 5 个核心 SKILL.md 总计 1113→457 行（-59%），详细内容移入 references/ |
+| v1.7 借鉴 Hermes 双文 | 2026-04-29 ✅ | 容量硬限制 + 声明式分离 + D5序列模式 + 即时Patch + 生命周期管理 + 效率审计 |

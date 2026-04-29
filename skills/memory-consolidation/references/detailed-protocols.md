@@ -185,12 +185,30 @@ MEMORY.md 采用 **项目隔离分区** 设计，防止跨项目知识污染：
 
 ## §6 保留 vs 丢弃原则
 
-### ✅ 应该保留
+### ✅ 应该保留（声明式事实）
+
+借鉴 Hermes Agent："Write memories as declarative facts, not instructions to yourself."
+
+- `'User prefers concise responses'` ✓
+- `'Always respond concisely'` ✗
 - 用户明确说"记住这个"、"记下来"的内容
 - 重复出现（≥2次）的偏好或模式
-- 影响未来决策的技术选型
+- 影响未来决策的技术选型（结论，非步骤）
 - 项目重要里程碑和关键决策
-- 踩过的坑和解决方案
+
+### 🔄 应迁移到 Skill（操作步骤类）
+
+**v4.0 新增**：Memory 与 Skill 严格分工——Memory 存事实，Skill 存步骤。
+
+| Memory 中常见的错误写法 | 应迁移到 |
+|------------------------|---------|
+| "Streamlit 中不要用 st.markdown 渲染 HTML，用原生组件更可靠" | → Skill 踩坑区 |
+| "ts_code 必须带交易所后缀（000001.SZ），不能只传数字代码" | → Skill 踩坑区 |
+| "V10 版本对标 Wind/聚宽/米筐：个股五维分析(雷达图+5维度Tab)..." | → Skill description |
+| "表单交互用 selectbox 预设 + text_input 自定义组合模式" | → Skill 工作流步骤 |
+| "UI 风格：深色背景(#0a0e17) + 紧凑行距 + hover 蓝色边框" | → Skill 约束区 |
+
+**迁移规则**：下次 memory-consolidation 整理时，扫描 MEMORY.md 中的操作步骤，迁移到对应 Skill。
 
 ### ❌ 应该丢弃
 - 一次性任务的中间过程细节
@@ -198,6 +216,7 @@ MEMORY.md 采用 **项目隔离分区** 设计，防止跨项目知识污染：
 - 重复的日常操作记录
 - 超过30天且未被引用的日志条目
 - 过于琐碎的交互（如"帮我改个标点"）
+- 超过60天未引用的 [0.3] 条目
 
 ---
 

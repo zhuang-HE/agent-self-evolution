@@ -1,6 +1,6 @@
 ---
 name: workflow-loop
-version: 2.1.0
+version: 3.0.0
 description: >
   标准工作流闭环模板库（STOM v2.0 瘦身版）。
   提供4种常用开发流程的标准化定义（Bug修复/功能开发/研究调研/代码审查）。
@@ -60,6 +60,37 @@ triggers:
 
 **等级：** L1 自动执行（无需确认）/ L2 自动建议（需确认）/ L3 条件触发
 **防重复：** 同一规则每会话最多 1 次；用户拒绝不再建议
+
+---
+
+## 🔧 Skill 即时 Patch（v3.0 新增）
+
+> 借鉴 Hermes Agent：使用 Skill 时发现步骤/参数/约束与实际不符 → **立即修正，不等 skill-evolution 审计**。
+
+### 触发条件
+
+使用 Skill 执行任务时，发现以下任一情况：
+- Skill 描述的步骤与实际操作不符
+- Skill 缺少关键约束（导致执行失败或绕路）
+- Skill 的参数示例已过时
+
+### Patch 规则
+
+| 规则 | 说明 |
+|------|------|
+| **patch 优先于重写** | 优先用 `replace_in_file` 局部修补，避免 `write_to_file` 全量重写 |
+| **保留已验证部分** | 只改需要改的，不触碰已验证稳定的步骤 |
+| **踩坑区记录原因** | 在 Skill 的踩坑经验区追加 `patch 原因 + 日期` |
+| **不等审计** | 不等到 skill-evolution 定期审计才修复 |
+
+### Patch 示例
+
+```
+执行 tushare-data Skill 时发现：freq 参数支持 1/5/15/30/60min
+但 SKILL.md 中只写了 5min/15min/30min
+→ 立即 replace_in_file 补全 freq 参数列表
+→ 追加踩坑：- stk_mins / freq 还支持 1min 和 60min（2026-04-29 patch）
+```
 
 ---
 
